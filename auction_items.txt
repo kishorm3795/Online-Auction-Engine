@@ -1,0 +1,6 @@
+Vintage Watch,500
+Antique Vase,300
+Gold Ring,1000
+Classic Car,5000
+Painting,800
+
