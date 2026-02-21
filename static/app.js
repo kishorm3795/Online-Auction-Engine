@@ -135,6 +135,7 @@ function updateAuctionUI(status) {
     currentItem = status;
     document.getElementById('item-name').textContent = status.item;
     document.getElementById('item-icon').textContent = getIcon(status.item);
+    document.getElementById('starting-price').textContent = `₹${status.starting_price || status.highest_bid}`;
     document.getElementById('highest-bid').textContent = `₹${status.highest_bid}`;
     document.getElementById('highest-bidder').textContent = status.highest_bidder || "No bids yet";
     
