@@ -226,21 +226,32 @@ def auction_timer_thread():
                 'status': auction_state.get_status()
             })
 
+        # Check if auction has ended
+        should_end = False
+        winner_data = None
+        
         with auction_state.lock:
             if auction_state.auction_active and time.time() > auction_state.auction_end_time:
                 auction_state.auction_active = False
+                should_end = True
                 winner_data = {
                     'item': auction_state.current_item['name'],
                     'winner': auction_state.highest_bidder,
                     'winning_bid': auction_state.highest_bid,
                     'status': 'ENDED'
                 }
-                socketio.emit('auction_ended', winner_data)
-                
-                if auction_state.next_item():
-                    socketio.sleep(3)
-                    if auction_state.start_auction():
-                        socketio.emit('auction_started', auction_state.get_status())
+        
+        # Emit events outside the lock
+        if should_end:
+            socketio.emit('auction_ended', winner_data)
+            print(f"Auction ended: {winner_data['item']} - Winner: {winner_data['winner']}")
+            
+            # Move to next item
+            if auction_state.next_item():
+                socketio.sleep(3)
+                if auction_state.start_auction():
+                    print(f"New auction started: {auction_state.current_item['name']}")
+                    socketio.emit('auction_started', auction_state.get_status())
 
 def broadcast_timer():
     while True:
