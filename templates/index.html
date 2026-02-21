@@ -3,106 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Auction Engine</title>
+    <title>🏆 Luxury Auction Engine | Real-time Bidding</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
     <div class="container">
         <!-- Header -->
         <header>
-            <h1>🏆 Online Auction Engine</h1>
-            <p class="tagline">Real-time Bidding Platform</p>
+            <h1>Luxury Auction Engine</h1>
+            <p class="tagline">Exclusive Real-time Bidding</p>
         </header>
 
         <!-- Login Section -->
         <div id="login-section" class="card">
-            <h2>Enter Your Details</h2>
+            <h2>Access the Auction</h2>
             <div class="form-group">
-                <label for="username">Your Name:</label>
-                <input type="text" id="username" placeholder="Enter your name" maxlength="20">
+                <label for="username">Your Identity:</label>
+                <input type="text" id="username" placeholder="Enter your name to begin..." maxlength="20">
             </div>
-            <button id="join-btn" class="btn btn-primary">Join Auction</button>
+            <button id="join-btn" class="btn btn-primary">Enter Now</button>
         </div>
 
         <!-- Auction Section (Hidden until logged in) -->
         <div id="auction-section" class="hidden">
             <!-- User Info Bar -->
             <div class="user-bar">
-                <span id="user-display">Welcome, <span id="user-name"></span></span>
-                <span class="status-badge" id="connection-status">Connecting...</span>
+                <span id="user-display">Agent: <span id="user-name" style="color: var(--accent-cyan); font-weight: 700;"></span></span>
+                <span class="status-badge" id="connection-status">CONNECTED</span>
             </div>
 
-            <!-- Main Auction Card -->
-            <div class="auction-card">
-                <div class="auction-header">
-                    <h2>Current Auction</h2>
-                    <div class="status-indicator" id="status-indicator">
-                        <span class="status-dot"></span>
-                        <span id="status-text">LOADING</span>
+            <!-- Main Auction Content -->
+            <div class="auction-grid">
+                <!-- Left Column: Active Auction -->
+                <div class="auction-card">
+                    <div class="auction-header">
+                        <h2>LIVE AUCTION</h2>
+                        <div class="status-indicator" id="status-indicator">
+                            <span class="status-dot"></span>
+                            <span id="status-text">LIVE</span>
+                        </div>
+                    </div>
+
+                    <!-- Item Display -->
+                    <div class="item-display">
+                        <div class="item-icon" id="item-icon">💎</div>
+                        <h3 id="item-name">Loading Masterpiece...</h3>
+                    </div>
+
+                    <!-- Bid Info -->
+                    <div class="bid-info">
+                        <div class="bid-row">
+                            <span class="label">Current Highest Bid</span>
+                            <span class="value bid-amount" id="highest-bid">₹0</span>
+                        </div>
+                        <div class="bid-row">
+                            <span class="label">Leading Bidder</span>
+                            <span class="value" id="highest-bidder">--</span>
+                        </div>
+                    </div>
+
+                    <!-- Timer -->
+                    <div class="timer-display">
+                        <div class="timer-label">TIME REMAINING</div>
+                        <div class="timer-value" id="timer">00:00</div>
+                        <div class="timer-bar">
+                            <div class="timer-progress" id="timer-progress"></div>
+                        </div>
+                    </div>
+
+                    <!-- Bid Input -->
+                    <div class="bid-input-section">
+                        <div class="quick-bids">
+                            <button class="quick-bid-btn" onclick="placeQuickBid(100)">+₹100</button>
+                            <button class="quick-bid-btn" onclick="placeQuickBid(500)">+₹500</button>
+                            <button class="quick-bid-btn" onclick="placeQuickBid(1000)">+₹1k</button>
+                            <button class="quick-bid-btn" onclick="placeQuickBid(5000)">+₹5k</button>
+                        </div>
+                        <div class="manual-bid">
+                            <input type="number" id="bid-amount" placeholder="Custom bid amount" min="0">
+                            <button id="place-bid-btn" class="btn btn-bid">Place Bid</button>
+                        </div>
+                        <div id="bid-message" class="message" style="margin-top: 15px; text-align: center; font-size: 0.9rem;"></div>
                     </div>
                 </div>
 
-                <!-- Item Display -->
-                <div class="item-display">
-                    <div class="item-icon">📦</div>
-                    <h3 id="item-name">Loading...</h3>
-                </div>
+                <!-- Right Column: Stats & Feed -->
+                <div class="sidebar">
+                    <!-- Activity Feed -->
+                    <div class="card activity-card">
+                        <h3>📊 FEED</h3>
+                        <div class="activity-feed" id="activity-feed">
+                            <p class="no-activity">Monitoring bidding activity...</p>
+                        </div>
+                    </div>
 
-                <!-- Bid Info -->
-                <div class="bid-info">
-                    <div class="bid-row">
-                        <span class="label">Current Bid:</span>
-                        <span class="value bid-amount" id="highest-bid">₹0</span>
+                    <!-- All Items List -->
+                    <div class="card items-list-card">
+                        <h3>📋 CATALOG</h3>
+                        <div class="items-grid" id="items-grid">
+                            <!-- Items will be loaded here -->
+                        </div>
                     </div>
-                    <div class="bid-row">
-                        <span class="label">Highest Bidder:</span>
-                        <span class="value" id="highest-bidder">--</span>
-                    </div>
-                    <div class="bid-row">
-                        <span class="label">Starting Price:</span>
-                        <span class="value" id="starting-price">₹0</span>
-                    </div>
-                </div>
-
-                <!-- Timer -->
-                <div class="timer-display">
-                    <div class="timer-label">Time Remaining</div>
-                    <div class="timer-value" id="timer">00:00</div>
-                    <div class="timer-bar">
-                        <div class="timer-progress" id="timer-progress"></div>
-                    </div>
-                </div>
-
-                <!-- Bid Input -->
-                <div class="bid-input-section">
-                    <div class="quick-bids">
-                        <span class="label">Quick Bid:</span>
-                        <button class="quick-bid-btn" onclick="placeQuickBid(50)">+50</button>
-                        <button class="quick-bid-btn" onclick="placeQuickBid(100)">+100</button>
-                        <button class="quick-bid-btn" onclick="placeQuickBid(500)">+500</button>
-                        <button class="quick-bid-btn" onclick="placeQuickBid(1000)">+1000</button>
-                    </div>
-                    <div class="manual-bid">
-                        <input type="number" id="bid-amount" placeholder="Enter bid amount" min="0">
-                        <button id="place-bid-btn" class="btn btn-bid">Place Bid</button>
-                    </div>
-                    <div id="bid-message" class="message"></div>
-                </div>
-            </div>
-
-            <!-- All Items List -->
-            <div class="items-list-card">
-                <h3>All Auction Items</h3>
-                <div class="items-grid" id="items-grid">
-                    <!-- Items will be loaded here -->
-                </div>
-            </div>
-
-            <!-- Activity Feed -->
-            <div class="activity-card">
-                <h3>📊 Live Activity</h3>
-                <div class="activity-feed" id="activity-feed">
-                    <p class="no-activity">No recent activity</p>
                 </div>
             </div>
         </div>
@@ -112,4 +116,3 @@
     <script src="/static/app.js"></script>
 </body>
 </html>
-

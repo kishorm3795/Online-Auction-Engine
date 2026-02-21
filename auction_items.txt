@@ -1,6 +1,100 @@
-Vintage Watch,500
-Antique Vase,300
-Gold Ring,1000
-Classic Car,5000
-Painting,800
-
+Quantum Laptop Pro,15680
+Holographic Smartwatch,32610
+Neural Link VR Headset,29760
+Foldable Pocket PC,39170
+Solar Powered Drone,27360
+AI Personal Assistant Bot,39910
+Graphene Smartphone,45710
+Wireless Energy Transmitter,6670
+Biometric Data Pad,30460
+Universal Translator Earbuds,45120
+1930s Golden Age Comic,31560
+Signed Apollo 11 Patch,46410
+First Edition Moon Map,22710
+Ancient Egyptian Scarab,6530
+Medieval Knight Armor,15870
+Victorian Pocket Watch,30270
+Samurai Katana (17th Century),32370
+Napoleon's Field Telescope,22170
+Ming Dynasty Vase,8900
+Original Star Wars Script,21540
+Sky-High Penthouse Stay,16200
+Private Island Lease (1 Month),24420
+Superyacht Weekend Charter,8780
+Vintage Vineyard Barrel,6010
+Elite Tennis Club Membership,13220
+Luxury Space Resort Deposit,17460
+Undersea Villa Experience,49950
+Sustainable Eco-Mansion Voucher,26480
+Alpine Chalet Stay,12130
+Arctic Glass Igloo Suite,20660
+Ether-Tiger Avatar #42,19540
+Pixelated Punk #831,46590
+Bored Ape Yacht Club Access,27630
+Digital Martian Land Parcel,740
+Legendary Hero Weapon Skin,49550
+Crypto-Crown NFT,41390
+Abstract Void Art piece,1590
+Neon City Core Blueprint,9980
+AI-Generated Symphony,31810
+Exclusive Metaverse Club Card,7850
+Grandfather Clock (1850),42760
+Gramophone with Original Records,37750
+Rotary Dial Golden Phone,28620
+Typewriter from the 20s,7820
+Classic Retro Film Projector,12800
+Antique Leather Trunk,34730
+Silver Tea Set (Sterling),24810
+Vintage Map of the Orient,47090
+Hand-Carved Totem Pole,29550
+Ancient Greek Coin Set,15520
+Electric Supercar Prototype,24090
+Restored 1967 Mustang,4860
+Vintage Vespa Scooter,21180
+Personal Hoverboard,4980
+Magnetic Levitation Bike,47130
+Classic Rolls Royce,20040
+Amphibious Vehicle,10380
+Solar Powered Sailboat,38770
+Luxury Private Jet Hours,31780
+Retro Futuristic Motorcycle,38450
+Ancient Egyptian Scarab (Gold),16450
+Ancient Greek Coin Set (Alpha),670
+Crypto-Crown NFT (Alpha),18830
+Biometric Data Pad (Platinum),46150
+Superyacht Weekend Charter (MK-II),2200
+Arctic Glass Igloo Suite (Gold),40230
+Exclusive Metaverse Club Card (Beta),16440
+First Edition Moon Map (Beta),31170
+Ming Dynasty Vase (MK-II),9210
+Signed Apollo 11 Patch (Beta),40110
+Typewriter from the 20s (Signature),22830
+Silver Tea Set (Sterling) (Signature),41580
+Ether-Tiger Avatar #42 (Signature),15520
+Medieval Knight Armor (Gold),2790
+Elite Tennis Club Membership (Beta),11860
+Undersea Villa Experience (Special Edition),12290
+Retro Futuristic Motorcycle (Special Edition),45720
+Classic Retro Film Projector (Gold),33610
+Crypto-Crown NFT (MK-I),46520
+Medieval Knight Armor (Platinum),27350
+Graphene Smartphone (Platinum),29540
+Ether-Tiger Avatar #42 (Platinum),2850
+Ether-Tiger Avatar #42 (Special Edition),40440
+Rotary Dial Golden Phone (MK-I),31270
+Gramophone with Original Records (Platinum),13990
+Magnetic Levitation Bike (Platinum),940
+Medieval Knight Armor (Beta),16190
+Graphene Smartphone (MK-II),2480
+AI-Generated Symphony (MK-II),11690
+Ether-Tiger Avatar #42 (Platinum),26530
+Antique Leather Trunk (MK-I),26890
+Ancient Greek Coin Set (Special Edition),8030
+Silver Tea Set (Sterling) (Gold),26380
+Amphibious Vehicle (Platinum),27740
+Ming Dynasty Vase (Limited Edition),34260
+Retro Futuristic Motorcycle (MK-II),6880
+Hand-Carved Totem Pole (Beta),15600
+Legendary Hero Weapon Skin (Gold),17880
+Foldable Pocket PC (Alpha),24750
+Original Star Wars Script (Gold),36510
