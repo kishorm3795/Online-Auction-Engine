@@ -12,15 +12,24 @@ A TCP-based real-time bidding system where multiple users can connect, view auct
 - **Auto-advance**: Automatically moves to next item when time expires
 - **Fair Bidding**: First highest bid wins with thread-safe operations
 - **Error Handling**: Handles client disconnects and invalid inputs gracefully
+- **Web Interface**: Modern browser-based UI with real-time updates
+- **REST API**: Programmatic access to auction data
 
 ## Project Structure
 
 ```
 Auction_Project/
-├── server.py          # Main auction server
-├── client.py          # Client application for bidders
-├── auction_items.txt  # List of auction items
-└── README.md          # This file
+├── server.py              # Original TCP server (CLI clients)
+├── enhanced_server.py     # Web server (Flask + WebSocket)
+├── client.py              # Original CLI client
+├── templates/
+│   └── index.html        # Web interface
+├── static/
+│   ├── styles.css        # Styling
+│   └── app.js           # Frontend JavaScript
+├── auction_items.txt     # List of auction items
+├── requirements.txt      # Python dependencies
+└── README.md            # This file
 ```
 
 ## How It Works
@@ -95,6 +104,65 @@ Each client will:
 - Enter their name
 - View current auction item and highest bid
 - Place bids or check status
+
+## Web Interface (New!)
+
+The enhanced server provides a modern web-based interface:
+
+### Step 1: Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+Or manually:
+```bash
+pip install flask flask-socketio python-socketio eventlet
+```
+
+### Step 2: Start the Enhanced Server
+
+```bash
+python enhanced_server.py
+```
+
+The server will:
+- Load auction items from `auction_items.txt`
+- Start Flask web server on `http://127.0.0.1:5000`
+- Provide WebSocket support for real-time updates
+
+### Step 3: Open Web Interface
+
+Open your browser and navigate to:
+```
+http://127.0.0.1:5000
+```
+
+### Web Features
+
+- **Real-time bidding** with live updates
+- **Quick bid buttons** for easy bidding
+- **Activity feed** showing all bids
+- **Timer display** with countdown
+- **Responsive design** works on mobile and desktop
+
+### REST API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/status` | GET | Get current auction status |
+| `/api/items` | GET | Get all auction items |
+| `/api/bid` | POST | Place a bid (JSON: `{"bidder": "name", "amount": 100}`) |
+
+### WebSocket Events
+
+- `connect` - Client connected
+- `disconnect` - Client disconnected
+- `status_update` - Auction status changed
+- `bid_update` - New bid placed
+- `timer_update` - Timer countdown
+- `auction_started` - New auction item started
+- `auction_ended` - Auction item ended
 
 ## Client Commands
 

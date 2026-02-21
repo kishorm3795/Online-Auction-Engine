@@ -1,0 +1,10 @@
+# Online Auction Engine - Dependencies
+
+# Flask and WebSocket
+flask>=2.0.0
+flask-socketio>=5.0.0
+python-socketio>=5.0.0
+
+# Eventlet for async support
+eventlet>=0.30.0
+
