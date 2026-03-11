@@ -246,6 +246,11 @@ A separate daemon thread monitors the auction timer and automatically:
 - Moves to the next item
 - Starts a new auction
 
+## Contributers
+- Pavan Kishor M -- PES2UG24AM111
+- PrajwalIndra -- PES2UG24AM117
+- Praveen Rajesh Naik -- PES2UG24AM123
+
 ## License
 
 MIT License
