@@ -96,28 +96,7 @@ class AuctionState:
             
             return True, f"Bid accepted: ₹{bid_amount}"
 
-    def auto_bid_logic(self):
-        """Simulate a bid if no one has bid for a while or to spike competition"""
-        with self.lock:
-            if not self.auction_active or self.highest_bidder == "Collector_Bot":
-                return False, 0
-            
-            # 15% chance to place a bot bid if time is running low
-            time_left = self.auction_end_time - time.time()
-            if time_left < 40 and random.random() < 0.15:
-                bot_bid = self.highest_bid + random.randint(1, 10) * 50
-                self.highest_bid = bot_bid
-                self.highest_bidder = "Collector_Bot"
-                self.bid_history.append({
-                    'bidder': "Collector_Bot",
-                    'amount': bot_bid,
-                    'item': self.current_item['name'],
-                    'timestamp': time.time()
-                })
-                # Extend time for bot bids too
-                self.auction_end_time = min(self.auction_end_time + 5, time.time() + self.auction_timer)
-                return True, bot_bid
-        return False, 0
+
 
     def get_status(self):
         """Get current auction status"""
@@ -217,14 +196,7 @@ def auction_timer_thread():
     while True:
         socketio.sleep(1)
         
-        # Bot logic
-        success, amount = auction_state.auto_bid_logic()
-        if success:
-            socketio.emit('bid_update', {
-                'bidder': "Collector_Bot",
-                'amount': amount,
-                'status': auction_state.get_status()
-            })
+
 
         # Check if auction has ended
         should_end = False

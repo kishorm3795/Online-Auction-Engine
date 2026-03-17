@@ -3,7 +3,7 @@ import random
 categories = {
     "Tech Gadgets": [
         "Quantum Laptop Pro", "Holographic Smartwatch", "Neural Link VR Headset", 
-        "Foldable Pocket PC", "Solar Powered Drone", "AI Personal Assistant Bot",
+"Quantum Fitness Tracker",
         "Graphene Smartphone", "Wireless Energy Transmitter", "Biometric Data Pad",
         "Universal Translator Earbuds"
     ],
