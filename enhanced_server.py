@@ -14,7 +14,7 @@ from flask_socketio import SocketIO, emit
 # Server configuration
 HOST = '127.0.0.1'
 PORT = 5555
-WEB_PORT = 5000
+WEB_PORT = 8080
 
 # Flask app setup
 app = Flask(__name__)
