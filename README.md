@@ -18,18 +18,22 @@ A TCP-based real-time bidding system where multiple users can connect, view auct
 ## Project Structure
 
 ```
-Auction_Project/
-├── server.py              # Original TCP server (CLI clients)
-├── enhanced_server.py     # Web server (Flask + WebSocket)
-├── client.py              # Original CLI client
+Online-Auction-Engine/
+├── server.py                 # Original TCP server (CLI clients)
+├── enhanced_server.py        # Enhanced web server (Flask + WebSocket)
+├── client.py                 # CLI client
+├── test_client.py            # Test client
+├── demo.py                   # Demo script
+├── generate_items.py         # Item generator
+├── auction_items.txt         # Auction items data
+├── requirements.txt          # Python dependencies
+├── README.md                 # Project documentation
+├── TODO.md                   # Task tracking
 ├── templates/
-│   └── index.html        # Web interface
-├── static/
-│   ├── styles.css        # Styling
-│   └── app.js           # Frontend JavaScript
-├── auction_items.txt     # List of auction items
-├── requirements.txt      # Python dependencies
-└── README.md            # This file
+│   └── index.html           # Web interface template
+└── static/
+    ├── styles.css            # Styles
+    └── app.js                # Frontend JavaScript
 ```
 
 ## How It Works
@@ -59,20 +63,27 @@ Update auction state
 Broadcast new highest bid to all clients
 ```
 
-## Setup & Running
+## Quick Start
+
+1. **Install dependencies**: `pip install -r requirements.txt`
+2. **Generate sample items**: `python generate_items.py` (optional)
+3. **Start CLI server**: `python server.py`
+4. **Or start web server**: `python enhanced_server.py`
+5. **Connect CLI clients**: `python client.py`
+6. **Or open web UI**: http://127.0.0.1:5000
+
+## Detailed Setup & Running
 
 ### Prerequisites
 
-- Python 3.x installed
+- Python 3.x
 
-### Step 1: Prepare Auction Items
+### Auction Items
 
-Edit `auction_items.txt` to add your items:
-
+Edit `auction_items.txt`:
 ```
 Item Name,Starting Price
 ```
-
 Example:
 ```
 Vintage Watch,500
@@ -80,7 +91,11 @@ Antique Vase,300
 Gold Ring,1000
 ```
 
-### Step 2: Start the Server
+### CLI Mode
+
+**Server**: `python server.py`
+
+**Clients**: `python client.py` (multiple terminals)
 
 ```bash
 python server.py
@@ -193,7 +208,7 @@ Loaded 5 auction items
 ==================================================
 
 First auction: Vintage Watch
-Starting bid: ₹500
+Starting bid: $500
 Time per item: 60 seconds
 ```
 
@@ -206,7 +221,7 @@ WELCOME TO ONLINE AUCTION ENGINE
 Enter your name: John
 
 Item: Vintage Watch
-Highest Bid: ₹500
+Highest Bid: $500
 Highest Bidder: No bids yet
 Time Left: 58 seconds
 Status: AUCTION LIVE
@@ -251,8 +266,10 @@ A separate daemon thread monitors the auction timer and automatically:
 - Prajwalindra -- PES2UG24AM117
 - Praveen Rajesh Naik -- PES2UG24AM123
 
+
+
+
+
 ## License
 
 MIT License
-
->>>>>>> ca52387 (verify the code)
