@@ -1,5 +1,12 @@
 # Online Auction Engine
 
+## GITHUB LINK : https://github.com/kishorm3795/Online-Auction-Engine
+
+## TEAM DETAILS
+- Pavan Kishor M -- PES2UG24AM111
+- Prajwalindra -- PES2UG24AM117
+- Praveen Rajesh Naik -- PES2UG24AM123
+
 A TCP-based real-time bidding system where multiple users can connect, view auction items, and place bids in real-time.
 
 ## Features
@@ -261,10 +268,7 @@ A separate daemon thread monitors the auction timer and automatically:
 - Moves to the next item
 - Starts a new auction
 
-## Contribution
-- Pavan Kishor M -- PES2UG24AM111
-- Prajwalindra -- PES2UG24AM117
-- Praveen Rajesh Naik -- PES2UG24AM123
+
 
 
 
