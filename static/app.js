@@ -74,7 +74,7 @@ function renderItemsGrid(items) {
         div.innerHTML = `
             <div style="font-size: 1.5rem; margin-bottom: 5px;">${getIcon(item.name)}</div>
             <div style="font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.name}</div>
-            <div style="color: var(--accent-cyan)">₹${item.starting_price}</div>
+            <div style="color: var(--accent-primary); font-weight: 600;">₹${item.starting_price}</div>
         `;
         itemsGrid.appendChild(div);
     });
@@ -89,7 +89,8 @@ socket.on('connect', () => {
 
 socket.on('disconnect', () => {
     connectionStatus.textContent = 'DISCONNECTED';
-    connectionStatus.style.color = 'var(--accent-pink)';
+    connectionStatus.style.color = 'var(--error)';
+    connectionStatus.style.background = '#fee2e2'; // Light red background
 });
 
 socket.on('status_update', (status) => {
@@ -113,7 +114,7 @@ socket.on('bid_update', (data) => {
 socket.on('auction_ended', (data) => {
     addActivity(`Auction Ended: ${data.item} won by ${data.winner || 'Nobody'} for ₹${data.winning_bid}`, 'end');
     bidMessage.textContent = `Auction ended! Winner: ${data.winner || 'None'}`;
-    bidMessage.style.color = 'var(--accent-cyan)';
+    bidMessage.style.color = 'var(--accent-primary)';
     fetchItems(); // Refresh catalog
 });
 
@@ -157,11 +158,11 @@ function updateTimer(timeLeft) {
     progressBar.style.width = `${percentage}%`;
     
     if (timeLeft <= 10) {
-        timerEl.style.color = 'var(--accent-pink)';
-        progressBar.style.background = 'var(--accent-pink)';
+        timerEl.style.color = 'var(--error)';
+        progressBar.style.background = 'var(--error)';
     } else {
-        timerEl.style.color = 'white';
-        progressBar.style.background = 'linear-gradient(90deg, var(--accent-cyan), var(--accent-pink))';
+        timerEl.style.color = 'var(--text-primary)';
+        progressBar.style.background = 'var(--accent-primary)';
     }
 }
 
@@ -205,7 +206,7 @@ async function placeBid(amount) {
         
         const result = await response.json();
         bidMessage.textContent = result.message;
-        bidMessage.style.color = result.success ? 'var(--success)' : 'var(--accent-pink)';
+        bidMessage.style.color = result.success ? 'var(--success)' : 'var(--error)';
         
         if (result.success) {
             document.getElementById('bid-amount').value = '';
