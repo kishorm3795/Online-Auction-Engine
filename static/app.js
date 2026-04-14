@@ -28,6 +28,19 @@ function getIcon(name) {
 // Elements
 const loginSection = document.getElementById('login-section');
 const auctionSection = document.getElementById('auction-section');
+const themeToggle = document.getElementById('theme-toggle');
+
+// Theme Toggle Logic
+themeToggle.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    if (currentTheme === 'dark') {
+        document.documentElement.removeAttribute('data-theme');
+        themeToggle.textContent = '🌙';
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        themeToggle.textContent = '☀️';
+    }
+});
 const joinBtn = document.getElementById('join-btn');
 const usernameInput = document.getElementById('username');
 const userDisplay = document.getElementById('user-name');
@@ -90,7 +103,7 @@ socket.on('connect', () => {
 socket.on('disconnect', () => {
     connectionStatus.textContent = 'DISCONNECTED';
     connectionStatus.style.color = 'var(--error)';
-    connectionStatus.style.background = '#fee2e2'; // Light red background
+    connectionStatus.style.background = 'var(--disconnect-bg)';
 });
 
 socket.on('status_update', (status) => {

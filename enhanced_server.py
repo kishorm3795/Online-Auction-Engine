@@ -242,4 +242,4 @@ if __name__ == "__main__":
     
     socketio.start_background_task(target=auction_timer_thread)
     socketio.start_background_task(target=broadcast_timer)
-    socketio.run(app, host=HOST, port=WEB_PORT, debug=True)
+    socketio.run(app, host=HOST, port=WEB_PORT, debug=True, allow_unsafe_werkzeug=True)
