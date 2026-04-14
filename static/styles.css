@@ -8,6 +8,38 @@
     --accent-secondary: #1d4ed8;
     --success: #10b981;
     --error: #ef4444;
+    --input-bg: #ffffff;
+    --bid-row-bg: #f3f4f6;
+    --quick-bid-hover: #f3f4f6;
+    --thumb-bg: #ffffff;
+    --thumb-active-bg: #eff6ff;
+    --scrollbar-track: transparent;
+    --scrollbar-thumb: #d1d5db;
+    --scrollbar-thumb-hover: #9ca3af;
+    --status-bg: #d1fae5;
+    --disconnect-bg: #fee2e2;
+}
+
+[data-theme="dark"] {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --border-color: #334155;
+    --accent-primary: #3b82f6;
+    --accent-secondary: #60a5fa;
+    --success: #10b981;
+    --error: #ef4444;
+    --input-bg: #0f172a;
+    --bid-row-bg: #0f172a;
+    --quick-bid-hover: #334155;
+    --thumb-bg: #1e293b;
+    --thumb-active-bg: #1e3a8a;
+    --scrollbar-track: transparent;
+    --scrollbar-thumb: #475569;
+    --scrollbar-thumb-hover: #64748b;
+    --status-bg: #064e3b;
+    --disconnect-bg: #7f1d1d;
 }
 
 * {
@@ -84,7 +116,7 @@ label {
 input {
     width: 100%;
     padding: 12px 16px;
-    background: #ffffff;
+    background: var(--input-bg);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     color: var(--text-primary);
@@ -110,12 +142,12 @@ input:focus {
 }
 
 .btn-primary {
-    background-color: var(--text-primary);
+    background-color: var(--accent-primary);
     color: #ffffff;
 }
 
 .btn-primary:hover {
-    background-color: #000000;
+    background-color: var(--accent-secondary);
     transform: translateY(-1px);
 }
 
@@ -140,7 +172,7 @@ input:focus {
     justify-content: space-between;
     align-items: center;
     padding: 15px 25px;
-    background: #ffffff;
+    background: var(--card-bg);
     border-radius: 12px;
     margin-bottom: 30px;
     border: 1px solid var(--border-color);
@@ -152,8 +184,8 @@ input:focus {
     border-radius: 20px;
     font-size: 0.8rem;
     font-weight: 600;
-    background: #d1fae5;
-    color: #065f46;
+    background: var(--status-bg);
+    color: var(--success);
 }
 
 .auction-grid {
@@ -169,7 +201,7 @@ input:focus {
 }
 
 .auction-card {
-    background: #ffffff;
+    background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 30px;
@@ -240,7 +272,7 @@ input:focus {
 }
 
 .bid-row {
-    background: #f3f4f6;
+    background: var(--bid-row-bg);
     padding: 20px;
     border-radius: 12px;
     text-align: center;
@@ -270,7 +302,8 @@ input:focus {
 /* Timer */
 .timer-display {
     margin-bottom: 40px;
-    background: #ffffff;
+    background: var(--card-bg);
+    background: var(--card-bg);
     border: 1px solid var(--border-color);
     padding: 20px;
     border-radius: 12px;
@@ -318,7 +351,7 @@ input:focus {
 }
 
 .quick-bid-btn {
-    background: #ffffff;
+    background: var(--input-bg);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
     padding: 8px 16px;
@@ -329,8 +362,8 @@ input:focus {
 }
 
 .quick-bid-btn:hover {
-    background: #f3f4f6;
-    border-color: #d1d5db;
+    background: var(--quick-bid-hover);
+    border-color: var(--text-secondary);
 }
 
 .manual-bid {
@@ -388,7 +421,7 @@ input:focus {
 }
 
 .item-thumb {
-    background: #ffffff;
+    background: var(--thumb-bg);
     padding: 15px;
     border-radius: 8px;
     text-align: center;
@@ -399,7 +432,7 @@ input:focus {
 
 .item-thumb.active {
     border-color: var(--accent-primary);
-    background: #eff6ff;
+    background: var(--thumb-active-bg);
 }
 
 /* Scrollbar styling */
@@ -407,12 +440,29 @@ input:focus {
     width: 6px;
 }
 ::-webkit-scrollbar-track {
-    background: transparent;
+    background: var(--scrollbar-track);
 }
 ::-webkit-scrollbar-thumb {
-    background: #d1d5db;
+    background: var(--scrollbar-thumb);
     border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #9ca3af;
+    background: var(--scrollbar-thumb-hover);
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    transition: transform 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+    transform: scale(1.1);
 }
