@@ -11,7 +11,7 @@ import subprocess
 import os
 
 # Change to project directory
-os.chdir('/Users/pavankishorm/Documents/Online-Auction-Engine')
+os.chdir('/Users/pavankishorm/Documents/My Projects/Online-Auction-Engine')
 
 def start_server():
     """Start the server in background"""
