@@ -1,119 +1,107 @@
-// Very Colorful & "Out of the Box" 3D Background
+// Professional, Highly Aesthetic & Distributed 3D Background
 const init3DBackground = () => {
     const canvas = document.getElementById('bg-canvas');
     if (!canvas) return;
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0a0015); // Deep vivid purple/black base
-    scene.fog = new THREE.FogExp2(0x0a0015, 0.015);
+    scene.background = new THREE.Color(0x060214); // Very deep, premium indigo-black
+    scene.fog = new THREE.FogExp2(0x060214, 0.015);
 
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 40;
+    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 50;
 
     const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // --- The Morphing Core (Abstract Art) ---
-    // We use a complex Torus Knot as our central "sculpture"
-    const knotGeometry = new THREE.TorusKnotGeometry(10, 3, 300, 20, 3, 4);
-    
-    // A highly reflective glass-like liquid material
-    const knotMaterial = new THREE.MeshPhysicalMaterial({
-        color: 0xff00bb, 
-        metalness: 0.1,
-        roughness: 0.1,
-        transmission: 0.9, // glass-like
-        thickness: 2.0,
-        envMapIntensity: 1.0,
-        clearcoat: 1.0,
-        clearcoatRoughness: 0.1,
-    });
-    
-    const knot = new THREE.Mesh(knotGeometry, knotMaterial);
-    scene.add(knot);
-
-    // --- Colorful Floating Elements ---
-    const shapes = [];
+    // --- Elegant Color Palette ---
+    // Professional but colorful: Rich Teals, Deep Violets, Rose Golds, Sapphires
     const colorPalette = [
-        0xff0055, // Vivid Pink
-        0x00ffcc, // Bright Cyan
-        0xffcc00, // Vibrant Yellow
-        0xbb00ff, // Neon Purple
-        0x39ff14  // Toxic Green
+        0x0ea5e9, // Bright Azure
+        0x8b5cf6, // Vibrant Violet
+        0x14b8a6, // Teal
+        0xf43f5e, // Rose Gold / Soft Ruby
+        0x3b82f6  // Sapphire Blue
     ];
 
-    const geometries = [
-        new THREE.OctahedronGeometry(2, 0),
-        new THREE.TorusGeometry(2, 0.5, 16, 100),
-        new THREE.ConeGeometry(2, 4, 4),
-        new THREE.DodecahedronGeometry(2, 0),
-        new THREE.IcosahedronGeometry(2, 0)
-    ];
-
-    for (let i = 0; i < 60; i++) {
-        const geom = geometries[Math.floor(Math.random() * geometries.length)];
-        const shapeColor = colorPalette[Math.floor(Math.random() * colorPalette.length)];
-        
-        // Some elements are solid, some are wireframe glowing
-        const isWireframe = Math.random() > 0.6;
-        
-        let material;
-        if (isWireframe) {
-            material = new THREE.MeshBasicMaterial({
-                color: shapeColor,
-                wireframe: true,
+    const shapes = [];
+    
+    // Create materials for drifting objects
+    const createMaterial = (colorCode) => {
+        // A mix of solid metallic and translucent glass-like materials
+        const isGlass = Math.random() > 0.4;
+        if (isGlass) {
+            return new THREE.MeshPhysicalMaterial({
+                color: colorCode,
+                metalness: 0.1,
+                roughness: 0.1,
+                transmission: 0.9, // glass-like look
+                thickness: 1.5,
                 transparent: true,
                 opacity: 0.8
             });
         } else {
-            material = new THREE.MeshStandardMaterial({
-                color: shapeColor,
-                emissive: shapeColor,
-                emissiveIntensity: 0.4,
-                roughness: 0.2,
+            return new THREE.MeshStandardMaterial({
+                color: colorCode,
+                emissive: colorCode,
+                emissiveIntensity: 0.2, // Subtle glow
+                roughness: 0.3,
                 metalness: 0.8
             });
         }
+    };
 
+    const geometries = [
+        new THREE.IcosahedronGeometry(Math.random() * 2 + 1, 0),
+        new THREE.OctahedronGeometry(Math.random() * 2 + 1, 0),
+        new THREE.TetrahedronGeometry(Math.random() * 2 + 1, 0)
+    ];
+
+    const boundaryX = 60;
+    const boundaryY = 40;
+    const boundaryZ = 40;
+
+    // Distribute 150 objects everywhere across the screen
+    for (let i = 0; i < 150; i++) {
+        const geom = geometries[Math.floor(Math.random() * geometries.length)];
+        const colorC = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+        const material = createMaterial(colorC);
+        
         const mesh = new THREE.Mesh(geom, material);
         
-        // Scatter them widely in a sphere around the core
-        const r = 15 + Math.random() * 40;
-        const theta = Math.random() * 2 * Math.PI;
-        const phi = Math.acos(2 * Math.random() - 1);
-        
-        mesh.position.x = r * Math.sin(phi) * Math.cos(theta);
-        mesh.position.y = r * Math.sin(phi) * Math.sin(theta);
-        mesh.position.z = r * Math.cos(phi) - 10;
+        // Randomize positions widely across the whole volume
+        mesh.position.x = (Math.random() - 0.5) * boundaryX * 2;
+        mesh.position.y = (Math.random() - 0.5) * boundaryY * 2;
+        mesh.position.z = (Math.random() - 0.5) * boundaryZ * 2; // Spread across Z to create depth
         
         mesh.rotation.x = Math.random() * Math.PI;
         mesh.rotation.y = Math.random() * Math.PI;
 
+        // Give each object a unique drift velocity
         mesh.userData = {
-            rotSpeedX: (Math.random() - 0.5) * 0.04,
-            rotSpeedY: (Math.random() - 0.5) * 0.04,
-            floatSpeed: (Math.random() - 0.5) * 0.05,
-            pivotLimit: Math.random() * 2,
-            initialY: mesh.position.y
+            dx: (Math.random() - 0.5) * 0.05,
+            dy: (Math.random() - 0.5) * 0.05,
+            dz: (Math.random() - 0.5) * 0.05,
+            rx: (Math.random() - 0.5) * 0.02,
+            ry: (Math.random() - 0.5) * 0.02,
         };
 
         shapes.push(mesh);
         scene.add(mesh);
     }
 
-    // --- Dynamic Neon Lights ---
-    // We add multiple rotating colored lights to illuminate the glass knot
-    const redLight = new THREE.PointLight(0xff0055, 500, 100);
-    const blueLight = new THREE.PointLight(0x00ffff, 500, 100);
-    const yellowLight = new THREE.PointLight(0xffcc00, 500, 100);
-    
-    scene.add(redLight);
-    scene.add(blueLight);
-    scene.add(yellowLight);
-
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+    // --- Subdued, Professional Lighting ---
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
+
+    // Soft drifting directional lights to interact with the glass
+    const light1 = new THREE.PointLight(0x8b5cf6, 200, 150); // Violet
+    const light2 = new THREE.PointLight(0x0ea5e9, 200, 150); // Azure
+    const light3 = new THREE.PointLight(0xf43f5e, 200, 150); // Rose
+    
+    scene.add(light1);
+    scene.add(light2);
+    scene.add(light3);
 
     // Interactive Camera Parallax
     let mouseX = 0;
@@ -135,42 +123,38 @@ const init3DBackground = () => {
         requestAnimationFrame(animate);
         const time = clock.getElapsedTime();
 
-        // Parallax easing
-        targetX = mouseX * 0.01;
-        targetY = mouseY * 0.01;
+        // Smooth Parallax
+        targetX = mouseX * 0.015;
+        targetY = mouseY * 0.015;
         camera.position.x += (targetX - camera.position.x) * 0.05;
         camera.position.y += (-targetY - camera.position.y) * 0.05;
         camera.lookAt(scene.position);
 
-        // Core Knot Animation
-        knot.rotation.x = time * 0.15;
-        knot.rotation.y = time * 0.2;
-        knot.rotation.z = time * 0.1;
-        
-        // Make the knot change color dynamically through Hue
-        const colorHue = (time * 0.05) % 1;
-        knotMaterial.color.setHSL(colorHue, 1.0, 0.5);
+        // Move the soft lights slowly
+        light1.position.set(Math.sin(time * 0.3) * 30, Math.cos(time * 0.2) * 20, Math.sin(time * 0.5) * 20);
+        light2.position.set(Math.cos(time * 0.4) * 30, Math.sin(time * 0.3) * 20, Math.cos(time * 0.6) * 20);
+        light3.position.set(Math.sin(time * 0.5) * 30, Math.cos(time * 0.4) * 20, Math.cos(time * 0.3) * 20);
 
-        // Orbit Lights around the knot
-        redLight.position.x = Math.sin(time * 0.8) * 15;
-        redLight.position.y = Math.cos(time * 0.6) * 15;
-        redLight.position.z = Math.sin(time * 0.5) * 15;
-        
-        blueLight.position.x = Math.sin(time * 1.2 + Math.PI) * 15;
-        blueLight.position.y = Math.cos(time * 0.9 + Math.PI) * 15;
-        blueLight.position.z = Math.sin(time * 0.7 + Math.PI) * 15;
-
-        yellowLight.position.x = Math.sin(time * 0.5 + Math.PI/2) * 15;
-        yellowLight.position.y = Math.cos(time * 1.1 + Math.PI/2) * 15;
-        yellowLight.position.z = Math.sin(time * 0.4 + Math.PI/2) * 15;
-
-        // Float & Rotate shapes
+        // Drift objects everywhere
         shapes.forEach(shape => {
-            shape.rotation.x += shape.userData.rotSpeedX;
-            shape.rotation.y += shape.userData.rotSpeedY;
+            // Apply velocities
+            shape.position.x += shape.userData.dx;
+            shape.position.y += shape.userData.dy;
+            shape.position.z += shape.userData.dz;
+
+            // Apply rotations
+            shape.rotation.x += shape.userData.rx;
+            shape.rotation.y += shape.userData.ry;
             
-            // Gentle hovering up and down
-            shape.position.y = shape.userData.initialY + Math.sin(time + shape.userData.initialY) * shape.userData.pivotLimit;
+            // Screen Wrapping Logic (if they drift out of boundary, loop to the other side)
+            if (shape.position.x > boundaryX) shape.position.x = -boundaryX;
+            else if (shape.position.x < -boundaryX) shape.position.x = boundaryX;
+            
+            if (shape.position.y > boundaryY) shape.position.y = -boundaryY;
+            else if (shape.position.y < -boundaryY) shape.position.y = boundaryY;
+            
+            if (shape.position.z > boundaryZ) shape.position.z = -boundaryZ;
+            else if (shape.position.z < -boundaryZ) shape.position.z = boundaryZ;
         });
 
         renderer.render(scene, camera);
