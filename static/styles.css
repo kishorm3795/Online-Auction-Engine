@@ -50,13 +50,22 @@
 }
 
 body {
-    background: var(--bg-color);
+    background: transparent;
     color: var(--text-primary);
     min-height: 100vh;
     padding: 20px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+#bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
 }
 
 .container {
@@ -87,13 +96,19 @@ header h1 {
 
 /* Card System */
 .card {
-    background: var(--card-bg);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     margin-bottom: 30px;
     transition: box-shadow 0.2s ease;
+}
+
+[data-theme="dark"] .card {
+    background: rgba(30, 41, 59, 0.75);
 }
 
 .card:hover {
@@ -172,11 +187,17 @@ input:focus {
     justify-content: space-between;
     align-items: center;
     padding: 15px 25px;
-    background: var(--card-bg);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-radius: 12px;
     margin-bottom: 30px;
     border: 1px solid var(--border-color);
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+[data-theme="dark"] .user-bar {
+    background: rgba(30, 41, 59, 0.75);
 }
 
 .status-badge {
@@ -201,11 +222,17 @@ input:focus {
 }
 
 .auction-card {
-    background: var(--card-bg);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .auction-card {
+    background: rgba(30, 41, 59, 0.75);
 }
 
 .auction-header {
@@ -302,11 +329,14 @@ input:focus {
 /* Timer */
 .timer-display {
     margin-bottom: 40px;
-    background: var(--card-bg);
-    background: var(--card-bg);
+    background: rgba(255, 255, 255, 0.5);
     border: 1px solid var(--border-color);
     padding: 20px;
     border-radius: 12px;
+}
+
+[data-theme="dark"] .timer-display {
+    background: rgba(30, 41, 59, 0.5);
 }
 
 .timer-label {
