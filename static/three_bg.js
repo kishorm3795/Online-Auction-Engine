@@ -1,155 +1,121 @@
-// Advanced 3D Animated Background using Three.js
+// Very Colorful & "Out of the Box" 3D Background
 const init3DBackground = () => {
     const canvas = document.getElementById('bg-canvas');
     if (!canvas) return;
 
-    // Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x020617); // Extremely deep blue/black
-    scene.fog = new THREE.FogExp2(0x020617, 0.02);
+    scene.background = new THREE.Color(0x0a0015); // Deep vivid purple/black base
+    scene.fog = new THREE.FogExp2(0x0a0015, 0.015);
 
-    // Camera setup
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 30;
+    camera.position.z = 40;
 
-    // Renderer setup
     const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // optimize for high DPI
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // --- Core Data Rings ---
-    const ringGroup = new THREE.Group();
-    scene.add(ringGroup);
-
-    const ringMaterial = new THREE.MeshStandardMaterial({
-        color: 0x3b82f6,
-        emissive: 0x1d4ed8,
-        emissiveIntensity: 0.5,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.4
-    });
-
-    const ringGeometry1 = new THREE.TorusGeometry(10, 0.2, 16, 100);
-    const ring1 = new THREE.Mesh(ringGeometry1, ringMaterial);
-    ring1.rotation.x = Math.PI / 2;
-    ringGroup.add(ring1);
-
-    const ringGeometry2 = new THREE.TorusGeometry(12, 0.1, 16, 100);
-    const ring2 = new THREE.Mesh(ringGeometry2, new THREE.MeshStandardMaterial({
-        color: 0x00d2ff, wireframe: true, transparent: true, opacity: 0.3
-    }));
-    ring2.rotation.x = Math.PI / 3;
-    ringGroup.add(ring2);
-
-    const ringGeometry3 = new THREE.TorusGeometry(15, 0.05, 16, 100);
-    const ring3 = new THREE.Mesh(ringGeometry3, new THREE.MeshStandardMaterial({
-        color: 0x60a5fa, transparent: true, opacity: 0.2
-    }));
-    ring3.rotation.x = Math.PI / 4;
-    ringGroup.add(ring3);
-
-    // --- Floating Polyhedrons ---
-    const shapes = [];
-    const solidMaterialParams = {
-        color: 0x0f172a,
-        emissive: 0x1e3a8a,
-        emissiveIntensity: 0.2,
-        transparent: true,
-        opacity: 0.8,
-        roughness: 0.1,
-        metalness: 0.9,
-        flatShading: true
-    };
+    // --- The Morphing Core (Abstract Art) ---
+    // We use a complex Torus Knot as our central "sculpture"
+    const knotGeometry = new THREE.TorusKnotGeometry(10, 3, 300, 20, 3, 4);
     
-    const wireframeMaterial = new THREE.MeshBasicMaterial({
-        color: 0x00d2ff,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.3
+    // A highly reflective glass-like liquid material
+    const knotMaterial = new THREE.MeshPhysicalMaterial({
+        color: 0xff00bb, 
+        metalness: 0.1,
+        roughness: 0.1,
+        transmission: 0.9, // glass-like
+        thickness: 2.0,
+        envMapIntensity: 1.0,
+        clearcoat: 1.0,
+        clearcoatRoughness: 0.1,
     });
+    
+    const knot = new THREE.Mesh(knotGeometry, knotMaterial);
+    scene.add(knot);
 
-    const geometries = [
-        new THREE.IcosahedronGeometry(1.5, 0),
-        new THREE.OctahedronGeometry(1.2, 0),
-        new THREE.TetrahedronGeometry(1.5, 0)
+    // --- Colorful Floating Elements ---
+    const shapes = [];
+    const colorPalette = [
+        0xff0055, // Vivid Pink
+        0x00ffcc, // Bright Cyan
+        0xffcc00, // Vibrant Yellow
+        0xbb00ff, // Neon Purple
+        0x39ff14  // Toxic Green
     ];
 
-    const solidMaterial = new THREE.MeshStandardMaterial(solidMaterialParams);
+    const geometries = [
+        new THREE.OctahedronGeometry(2, 0),
+        new THREE.TorusGeometry(2, 0.5, 16, 100),
+        new THREE.ConeGeometry(2, 4, 4),
+        new THREE.DodecahedronGeometry(2, 0),
+        new THREE.IcosahedronGeometry(2, 0)
+    ];
 
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 60; i++) {
         const geom = geometries[Math.floor(Math.random() * geometries.length)];
+        const shapeColor = colorPalette[Math.floor(Math.random() * colorPalette.length)];
         
-        // Group to hold solid + wireframe outline
-        const shapeGroup = new THREE.Group();
+        // Some elements are solid, some are wireframe glowing
+        const isWireframe = Math.random() > 0.6;
         
-        const mesh = new THREE.Mesh(geom, solidMaterial);
-        const wireScale = 1.05;
-        const meshWire = new THREE.Mesh(geom, wireframeMaterial);
-        meshWire.scale.set(wireScale, wireScale, wireScale);
-        
-        shapeGroup.add(mesh);
-        shapeGroup.add(meshWire);
-        
-        // Random positioning within a torus range
-        const radius = 10 + Math.random() * 15;
-        const angle = Math.random() * Math.PI * 2;
-        const yOffset = (Math.random() - 0.5) * 15;
-        
-        shapeGroup.position.x = Math.cos(angle) * radius;
-        shapeGroup.position.z = Math.sin(angle) * radius - 10;
-        shapeGroup.position.y = yOffset;
-        
-        // Random rotation
-        shapeGroup.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+        let material;
+        if (isWireframe) {
+            material = new THREE.MeshBasicMaterial({
+                color: shapeColor,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.8
+            });
+        } else {
+            material = new THREE.MeshStandardMaterial({
+                color: shapeColor,
+                emissive: shapeColor,
+                emissiveIntensity: 0.4,
+                roughness: 0.2,
+                metalness: 0.8
+            });
+        }
 
-        // Velocity for animation
-        shapeGroup.userData = {
-            rx: (Math.random() - 0.5) * 0.02,
-            ry: (Math.random() - 0.5) * 0.02,
-            orbitSpeed: 0.001 + Math.random() * 0.003,
-            angle: angle,
-            radius: radius
+        const mesh = new THREE.Mesh(geom, material);
+        
+        // Scatter them widely in a sphere around the core
+        const r = 15 + Math.random() * 40;
+        const theta = Math.random() * 2 * Math.PI;
+        const phi = Math.acos(2 * Math.random() - 1);
+        
+        mesh.position.x = r * Math.sin(phi) * Math.cos(theta);
+        mesh.position.y = r * Math.sin(phi) * Math.sin(theta);
+        mesh.position.z = r * Math.cos(phi) - 10;
+        
+        mesh.rotation.x = Math.random() * Math.PI;
+        mesh.rotation.y = Math.random() * Math.PI;
+
+        mesh.userData = {
+            rotSpeedX: (Math.random() - 0.5) * 0.04,
+            rotSpeedY: (Math.random() - 0.5) * 0.04,
+            floatSpeed: (Math.random() - 0.5) * 0.05,
+            pivotLimit: Math.random() * 2,
+            initialY: mesh.position.y
         };
 
-        shapes.push(shapeGroup);
-        scene.add(shapeGroup);
+        shapes.push(mesh);
+        scene.add(mesh);
     }
 
-    // --- Particle Data Stream ---
-    const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 2000;
+    // --- Dynamic Neon Lights ---
+    // We add multiple rotating colored lights to illuminate the glass knot
+    const redLight = new THREE.PointLight(0xff0055, 500, 100);
+    const blueLight = new THREE.PointLight(0x00ffff, 500, 100);
+    const yellowLight = new THREE.PointLight(0xffcc00, 500, 100);
     
-    const posArray = new Float32Array(particlesCount * 3);
-    for(let i = 0; i < particlesCount * 3; i++) {
-        posArray[i] = (Math.random() - 0.5) * 60;
-    }
-    
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.08,
-        color: 0x60a5fa,
-        transparent: true,
-        opacity: 0.6,
-        blending: THREE.AdditiveBlending
-    });
-    
-    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particlesMesh);
+    scene.add(redLight);
+    scene.add(blueLight);
+    scene.add(yellowLight);
 
-    // --- Lighting ---
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
     scene.add(ambientLight);
 
-    const pointLight1 = new THREE.PointLight(0x00d2ff, 100, 100);
-    pointLight1.position.set(10, 10, 10);
-    scene.add(pointLight1);
-    
-    const pointLight2 = new THREE.PointLight(0x3b82f6, 100, 100);
-    pointLight2.position.set(-10, -10, 10);
-    scene.add(pointLight2);
-
-    // Mouse interactivty
+    // Interactive Camera Parallax
     let mouseX = 0;
     let mouseY = 0;
     let targetX = 0;
@@ -163,46 +129,55 @@ const init3DBackground = () => {
         mouseY = (event.clientY - windowHalfY);
     });
 
-    // --- Animation Loop ---
     const clock = new THREE.Clock();
 
     const animate = function () {
         requestAnimationFrame(animate);
-        const elapsedTime = clock.getElapsedTime();
+        const time = clock.getElapsedTime();
 
-        // Parallax effect with mouse
-        targetX = mouseX * 0.001;
-        targetY = mouseY * 0.001;
-        ringGroup.rotation.y += 0.05 * (targetX - ringGroup.rotation.y);
-        ringGroup.rotation.x += 0.05 * (targetY - ringGroup.rotation.x);
+        // Parallax easing
+        targetX = mouseX * 0.01;
+        targetY = mouseY * 0.01;
+        camera.position.x += (targetX - camera.position.x) * 0.05;
+        camera.position.y += (-targetY - camera.position.y) * 0.05;
+        camera.lookAt(scene.position);
+
+        // Core Knot Animation
+        knot.rotation.x = time * 0.15;
+        knot.rotation.y = time * 0.2;
+        knot.rotation.z = time * 0.1;
         
-        // Rotate rings
-        ring1.rotation.z = elapsedTime * 0.1;
-        ring2.rotation.y = elapsedTime * 0.15;
-        ring3.rotation.x = elapsedTime * 0.2;
-        ring3.rotation.z = elapsedTime * 0.05;
+        // Make the knot change color dynamically through Hue
+        const colorHue = (time * 0.05) % 1;
+        knotMaterial.color.setHSL(colorHue, 1.0, 0.5);
 
-        // Animate floating polyhedrons in orbit
+        // Orbit Lights around the knot
+        redLight.position.x = Math.sin(time * 0.8) * 15;
+        redLight.position.y = Math.cos(time * 0.6) * 15;
+        redLight.position.z = Math.sin(time * 0.5) * 15;
+        
+        blueLight.position.x = Math.sin(time * 1.2 + Math.PI) * 15;
+        blueLight.position.y = Math.cos(time * 0.9 + Math.PI) * 15;
+        blueLight.position.z = Math.sin(time * 0.7 + Math.PI) * 15;
+
+        yellowLight.position.x = Math.sin(time * 0.5 + Math.PI/2) * 15;
+        yellowLight.position.y = Math.cos(time * 1.1 + Math.PI/2) * 15;
+        yellowLight.position.z = Math.sin(time * 0.4 + Math.PI/2) * 15;
+
+        // Float & Rotate shapes
         shapes.forEach(shape => {
-            shape.rotation.x += shape.userData.rx;
-            shape.rotation.y += shape.userData.ry;
+            shape.rotation.x += shape.userData.rotSpeedX;
+            shape.rotation.y += shape.userData.rotSpeedY;
             
-            // Orbit calculation
-            shape.userData.angle += shape.userData.orbitSpeed;
-            shape.position.x = Math.cos(shape.userData.angle) * shape.userData.radius;
-            shape.position.z = Math.sin(shape.userData.angle) * shape.userData.radius - 10;
+            // Gentle hovering up and down
+            shape.position.y = shape.userData.initialY + Math.sin(time + shape.userData.initialY) * shape.userData.pivotLimit;
         });
-
-        // Gently move particle stream
-        particlesMesh.position.y = Math.sin(elapsedTime * 0.2) * 2;
-        particlesMesh.rotation.y = elapsedTime * 0.05;
 
         renderer.render(scene, camera);
     };
 
     animate();
 
-    // Handle Resize
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
