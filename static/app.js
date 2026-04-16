@@ -28,19 +28,6 @@ function getIcon(name) {
 // Elements
 const loginSection = document.getElementById('login-section');
 const auctionSection = document.getElementById('auction-section');
-const themeToggle = document.getElementById('theme-toggle');
-
-// Theme Toggle Logic
-themeToggle.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    if (currentTheme === 'dark') {
-        document.documentElement.removeAttribute('data-theme');
-        themeToggle.textContent = '🌙';
-    } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        themeToggle.textContent = '☀️';
-    }
-});
 const joinBtn = document.getElementById('join-btn');
 const usernameInput = document.getElementById('username');
 const userDisplay = document.getElementById('user-name');

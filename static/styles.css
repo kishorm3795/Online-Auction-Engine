@@ -1,45 +1,23 @@
 :root {
-    --bg-color: #f9fafb;
-    --card-bg: #ffffff;
-    --text-primary: #111827;
-    --text-secondary: #6b7280;
-    --border-color: #e5e7eb;
-    --accent-primary: #2563eb; /* A sleek blue */
-    --accent-secondary: #1d4ed8;
-    --success: #10b981;
-    --error: #ef4444;
-    --input-bg: #ffffff;
-    --bid-row-bg: #f3f4f6;
-    --quick-bid-hover: #f3f4f6;
-    --thumb-bg: #ffffff;
-    --thumb-active-bg: #eff6ff;
-    --scrollbar-track: transparent;
-    --scrollbar-thumb: #d1d5db;
-    --scrollbar-thumb-hover: #9ca3af;
-    --status-bg: #d1fae5;
-    --disconnect-bg: #fee2e2;
-}
-
-[data-theme="dark"] {
-    --bg-color: #0f172a;
+    --bg-color: #050a1f; /* Deep navy blue/black to match 3D bg */
     --card-bg: #1e293b;
     --text-primary: #f8fafc;
     --text-secondary: #94a3b8;
-    --border-color: #334155;
+    --border-color: rgba(51, 65, 85, 0.5); /* translucent border */
     --accent-primary: #3b82f6;
     --accent-secondary: #60a5fa;
     --success: #10b981;
     --error: #ef4444;
     --input-bg: #0f172a;
-    --bid-row-bg: #0f172a;
+    --bid-row-bg: rgba(15, 23, 42, 0.7);
     --quick-bid-hover: #334155;
-    --thumb-bg: #1e293b;
-    --thumb-active-bg: #1e3a8a;
+    --thumb-bg: rgba(30, 41, 59, 0.8);
+    --thumb-active-bg: rgba(30, 58, 138, 0.9);
     --scrollbar-track: transparent;
     --scrollbar-thumb: #475569;
     --scrollbar-thumb-hover: #64748b;
-    --status-bg: #064e3b;
-    --disconnect-bg: #7f1d1d;
+    --status-bg: rgba(6, 78, 59, 0.5);
+    --disconnect-bg: rgba(127, 29, 29, 0.5);
 }
 
 * {
@@ -94,21 +72,16 @@ header h1 {
     font-weight: 400;
 }
 
-/* Card System */
 .card {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(15, 23, 42, 0.65); /* Deep translucent dark */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 30px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     margin-bottom: 30px;
-    transition: box-shadow 0.2s ease;
-}
-
-[data-theme="dark"] .card {
-    background: rgba(30, 41, 59, 0.75);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .card:hover {
@@ -187,17 +160,13 @@ input:focus {
     justify-content: space-between;
     align-items: center;
     padding: 15px 25px;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-radius: 12px;
     margin-bottom: 30px;
     border: 1px solid var(--border-color);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-
-[data-theme="dark"] .user-bar {
-    background: rgba(30, 41, 59, 0.75);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.37);
 }
 
 .status-badge {
@@ -222,17 +191,13 @@ input:focus {
 }
 
 .auction-card {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 30px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-}
-
-[data-theme="dark"] .auction-card {
-    background: rgba(30, 41, 59, 0.75);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 .auction-header {
@@ -329,14 +294,10 @@ input:focus {
 /* Timer */
 .timer-display {
     margin-bottom: 40px;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(15, 23, 42, 0.5);
     border: 1px solid var(--border-color);
     padding: 20px;
     border-radius: 12px;
-}
-
-[data-theme="dark"] .timer-display {
-    background: rgba(30, 41, 59, 0.5);
 }
 
 .timer-label {
@@ -480,19 +441,4 @@ input:focus {
     background: var(--scrollbar-thumb-hover);
 }
 
-/* Theme Toggle Button */
-.theme-toggle-btn {
-    background: none;
-    border: none;
-    color: var(--text-primary);
-    font-size: 1.5rem;
-    cursor: pointer;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    transition: transform 0.2s ease;
-}
 
-.theme-toggle-btn:hover {
-    transform: scale(1.1);
-}
