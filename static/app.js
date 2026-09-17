@@ -38,7 +38,55 @@ const bidMessage = document.getElementById('bid-message');
 
 // --- Initialization ---
 
-joinBtn.addEventListener('click', () => {
+// Audio Feedback System (Web Audio API)
+let soundEnabled = true;
+let audioCtx = null;
+
+function playTone(freq, type = 'sine', duration = 0.15) {
+    if (!soundEnabled) return;
+    try {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+    } catch (e) {
+        console.debug("Audio play error", e);
+    }
+}
+
+function playBidSound() {
+    playTone(587.33, 'sine', 0.12);
+    setTimeout(() => playTone(880, 'sine', 0.18), 90);
+}
+
+function playEndSound() {
+    playTone(523.25, 'triangle', 0.18);
+    setTimeout(() => playTone(659.25, 'triangle', 0.18), 140);
+    setTimeout(() => playTone(783.99, 'triangle', 0.3), 280);
+}
+
+const soundToggleBtn = document.getElementById('sound-toggle-btn');
+if (soundToggleBtn) {
+    soundToggleBtn.addEventListener('click', () => {
+        soundEnabled = !soundEnabled;
+        soundToggleBtn.textContent = soundEnabled ? '🔊 Sound On' : '🔇 Muted';
+        soundToggleBtn.classList.toggle('muted', !soundEnabled);
+    });
+}
+
+function handleLogin() {
     const name = usernameInput.value.trim();
     if (name) {
         currentUser = name;
@@ -51,6 +99,13 @@ joinBtn.addEventListener('click', () => {
         socket.emit('request_status');
     } else {
         alert("Please enter a valid identity.");
+    }
+}
+
+joinBtn.addEventListener('click', handleLogin);
+usernameInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        handleLogin();
     }
 });
 
@@ -104,6 +159,7 @@ socket.on('timer_update', (data) => {
 socket.on('bid_update', (data) => {
     updateAuctionUI(data.status);
     addActivity(`New bid: ₹${data.amount} by ${data.bidder}`, 'bid');
+    playBidSound();
     
     // Animate bid amount
     const bidEl = document.getElementById('highest-bid');
@@ -113,6 +169,7 @@ socket.on('bid_update', (data) => {
 
 socket.on('auction_ended', (data) => {
     addActivity(`Auction Ended: ${data.item} won by ${data.winner || 'Nobody'} for ₹${data.winning_bid}`, 'end');
+    playEndSound();
     bidMessage.textContent = `Auction ended! Winner: ${data.winner || 'None'}`;
     bidMessage.style.color = 'var(--accent-primary)';
     fetchItems(); // Refresh catalog
@@ -223,9 +280,22 @@ window.placeQuickBid = (extra) => {
     placeBid(newBid);
 };
 
-document.getElementById('place-bid-btn').addEventListener('click', () => {
-    const amount = parseInt(document.getElementById('bid-amount').value);
-    if (!isNaN(amount)) {
+const bidAmountInput = document.getElementById('bid-amount');
+const placeBidBtn = document.getElementById('place-bid-btn');
+
+function handlePlaceBid() {
+    const amount = parseInt(bidAmountInput.value);
+    if (!isNaN(amount) && amount > 0) {
         placeBid(amount);
+    } else {
+        bidMessage.textContent = "Please enter a valid bid amount.";
+        bidMessage.style.color = 'var(--error)';
+    }
+}
+
+placeBidBtn.addEventListener('click', handlePlaceBid);
+bidAmountInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        handlePlaceBid();
     }
 });
