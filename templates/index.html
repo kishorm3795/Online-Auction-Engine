@@ -25,7 +25,7 @@
             <h2>Access the Auction</h2>
             <div class="form-group">
                 <label for="username">Your Identity:</label>
-                <input type="text" id="username" placeholder="Enter your name to begin..." maxlength="20">
+                <input type="text" id="username" placeholder="Enter your name to begin..." maxlength="20" autofocus autocomplete="off">
             </div>
             <button id="join-btn" class="btn btn-primary">Enter Now</button>
         </div>
@@ -35,7 +35,10 @@
             <!-- User Info Bar -->
             <div class="user-bar">
                 <span id="user-display">User: <span id="user-name" style="color: var(--accent-primary); font-weight: 700;"></span></span>
-                <span class="status-badge" id="connection-status">CONNECTED</span>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <button id="sound-toggle-btn" class="sound-toggle" type="button" title="Toggle audio feedback">🔊 Sound On</button>
+                    <span class="status-badge" id="connection-status">CONNECTED</span>
+                </div>
             </div>
 
             <!-- Main Auction Content -->

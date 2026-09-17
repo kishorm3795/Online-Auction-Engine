@@ -4,6 +4,7 @@ Online Auction Engine - Enhanced Server
 Flask REST API + WebSocket for real-time bidding
 """
 
+import os
 import json
 import threading
 import time
@@ -12,13 +13,13 @@ from flask import Flask, request, jsonify, render_template
 from flask_socketio import SocketIO, emit
 
 # Server configuration
-HOST = '127.0.0.1'
-PORT = 5555
-WEB_PORT = 8080
+HOST = os.environ.get('HOST', '127.0.0.1')
+TCP_PORT = int(os.environ.get('TCP_PORT', 5555))
+WEB_PORT = int(os.environ.get('WEB_PORT', os.environ.get('PORT', 8080)))
 
 # Flask app setup
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'auction-secret-key-2024'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'auction-secret-key-2024')
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
 
 # Auction state
@@ -165,17 +166,42 @@ def get_status_api():
 def get_items_api():
     return jsonify(auction_state.get_all_items())
 
+@app.route('/api/history')
+def get_history_api():
+    with auction_state.lock:
+        return jsonify(list(auction_state.bid_history))
+
+@app.route('/api/health')
+def health_api():
+    with auction_state.lock:
+        item_name = auction_state.current_item['name'] if auction_state.current_item else None
+        return jsonify({
+            'status': 'healthy',
+            'auction_active': auction_state.auction_active,
+            'current_item': item_name,
+            'timestamp': time.time()
+        })
+
 @app.route('/api/bid', methods=['POST'])
 def place_bid_api():
-    data = request.get_json()
+    data = request.get_json(silent=True)
     if not data or 'bidder' not in data or 'amount' not in data:
-        return jsonify({'success': False, 'message': 'Missing data'}), 400
+        return jsonify({'success': False, 'message': 'Missing bidder or amount in payload'}), 400
     
-    success, message = auction_state.place_bid(data['bidder'], data['amount'])
+    bidder = str(data['bidder']).strip()
+    if not bidder:
+        return jsonify({'success': False, 'message': 'Bidder name cannot be empty'}), 400
+
+    try:
+        amount = int(data['amount'])
+    except (ValueError, TypeError):
+        return jsonify({'success': False, 'message': 'Bid amount must be an integer'}), 400
+
+    success, message = auction_state.place_bid(bidder, amount)
     if success:
         socketio.emit('bid_update', {
-            'bidder': data['bidder'],
-            'amount': data['amount'],
+            'bidder': bidder,
+            'amount': amount,
             'status': auction_state.get_status()
         })
     return jsonify({'success': success, 'message': message})

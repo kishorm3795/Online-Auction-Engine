@@ -441,4 +441,27 @@ input:focus {
     background: var(--scrollbar-thumb-hover);
 }
 
+/* Sound toggle button */
+.sound-toggle {
+    background: rgba(30, 41, 59, 0.7);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sound-toggle:hover {
+    color: var(--text-primary);
+    border-color: var(--accent-primary);
+}
+
+.sound-toggle.muted {
+    opacity: 0.6;
+    color: var(--text-secondary);
+}
+
 
